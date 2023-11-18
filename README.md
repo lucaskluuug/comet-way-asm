@@ -1,1 +1,1 @@
-# comet-way-asm
+# Comet Way - Assembly Game
