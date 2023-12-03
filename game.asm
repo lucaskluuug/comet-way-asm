@@ -195,6 +195,9 @@
                   db "OOXOOXOO"
                   db "OOOOOOOO$"
 
+    BULLET db "XX"
+           db "XX$"
+
 
 
 ;|////////////////////////////////////////////////////////////////////////////////|
@@ -937,8 +940,9 @@ GAME_MOVE_SPACECRAFT_DOWN:
     call MOVE_SPACECRAFT
     jmp GAME_MATCH_LOOP
 
-
 TEMPORARIO:
+    call SHOT
+    jmp GAME_MATCH_LOOP
 
 
 
@@ -956,6 +960,33 @@ LOOP_INFINITO:
     pop AX
     ret
 endp
+
+
+; This procedure print the spacecraft up or down.
+; * Receives the direction of movement in AX (0 down and 1 up).
+SHOT proc
+    push AX
+    push BX
+    push SI
+    push DX
+
+    mov SI, offset SPACECRAFT_POSITION
+    mov AX, [SI]
+    mov SI, AX
+    mov BX, 972 ; 1292 ou 1612 ; 12 px + 5 rows
+    add BX, SI ; Printing starting position
+
+    mov SI, offset BULLET
+    mov DL, 0FH   ; Color for pixel X.
+    mov DH, 00H   ; Color for pixel O.
+    mov AX, 2    ; Drawing width. 
+    call DRAW
+
+    pop DX
+    pop SI
+    pop BX
+    pop AX
+
 
 
 
